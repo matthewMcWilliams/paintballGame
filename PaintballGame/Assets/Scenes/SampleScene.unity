@@ -595,7 +595,8 @@ MonoBehaviour:
   playerPrefab: {fileID: 4242225728954281888, guid: b3193a21290f4534ea03d2c444de9d61, type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 1
-  spawnPrefabs: []
+  spawnPrefabs:
+  - {fileID: 3391545023100677568, guid: dcf71e6cbfe572948885ec7a7cab2fb3, type: 3}
   snapshotSettings:
     bufferTimeMultiplier: 2
     catchupNegativeThreshold: -1
@@ -1185,9 +1186,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2187524044211704599, guid: dcf71e6cbfe572948885ec7a7cab2fb3, type: 3}
+      propertyPath: syncDirection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3391545023100677568, guid: dcf71e6cbfe572948885ec7a7cab2fb3, type: 3}
       propertyPath: m_Name
       value: Bullet
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186989411337988710, guid: dcf71e6cbfe572948885ec7a7cab2fb3, type: 3}
+      propertyPath: sceneId
+      value: 3456408294
       objectReference: {fileID: 0}
     - target: {fileID: 8374217568480845045, guid: dcf71e6cbfe572948885ec7a7cab2fb3, type: 3}
       propertyPath: m_RootOrder

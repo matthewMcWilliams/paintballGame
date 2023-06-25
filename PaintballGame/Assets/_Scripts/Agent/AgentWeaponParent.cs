@@ -1,9 +1,10 @@
+using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AgentWeaponParent : MonoBehaviour
+public class AgentWeaponParent : NetworkBehaviour
 {
     [SerializeField] private AgentInput _agentInput;
 
@@ -21,9 +22,15 @@ public class AgentWeaponParent : MonoBehaviour
 
     private void CheckForInput()
     {
-        if (_agentInput.GetFiring())
+        if (isLocalPlayer && _agentInput.GetFiring())
         {
-            _weapon.Fire();
+            CmdFire();
         }
+    }
+
+    [Command]
+    private void CmdFire()
+    {
+        _weapon.Fire();
     }
 }

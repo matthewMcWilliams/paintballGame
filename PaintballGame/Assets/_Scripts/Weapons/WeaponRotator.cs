@@ -1,23 +1,35 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponRotator : MonoBehaviour
+public class WeaponRotator : NetworkBehaviour
 {
     [SerializeField] private Transform _rotateThis;
     [SerializeField] private AgentInput _agentInput;
 
-    private Vector2 dir = Vector2.right;
+    [SyncVar] private Vector2 dir = Vector2.right;
 
     private void Update()
     {
+        if (!isLocalPlayer || !Application.isFocused)
+        {
+            return;
+        }
         dir = RotateGun();
         FlipGun(dir);
+        UpdateDir(dir);
     }
 
     public Vector2 GetDir()
     {
         return dir.normalized;
+    }
+
+    [Command]
+    private void UpdateDir(Vector2 dir)
+    {
+        this.dir = dir;
     }
 
     private void FlipGun(Vector2 dir)
