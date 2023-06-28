@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceResistance: 0
   splashRadius: 0
-  speed: 20
-  rateOfFire: 0
-  fallRate: 0
-  spreadAngle: 0
+  speed: 38.3
+  rateOfFire: 0.07
+  autoFire: 1
+  fallRate: 2
+  spreadAngle: 1.41
   weight: 0
   ammoCapacity: 0

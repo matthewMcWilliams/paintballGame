@@ -325,7 +325,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 6.78125
+  orthographic size: 7.3125
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -829,7 +829,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1181575990
 Transform:
   m_ObjectHideFlags: 0
@@ -1186,10 +1186,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2187524044211704599, guid: dcf71e6cbfe572948885ec7a7cab2fb3, type: 3}
-      propertyPath: syncDirection
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3391545023100677568, guid: dcf71e6cbfe572948885ec7a7cab2fb3, type: 3}
       propertyPath: m_Name
       value: Bullet

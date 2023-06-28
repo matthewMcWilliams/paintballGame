@@ -1,4 +1,5 @@
 using Mirror;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,8 +8,21 @@ public class WeaponRotator : NetworkBehaviour
 {
     [SerializeField] private Transform _rotateThis;
     [SerializeField] private AgentInput _agentInput;
+    [SerializeField] private SpriteRenderer _weaponRenderer;
 
-    [SyncVar] private Vector2 dir = Vector2.right;
+    [SyncVar] private Vector2 _dir = Vector2.right;
+
+    private WeaponSwitcher _weaponSwitcher;
+
+    private void Awake()
+    {
+        _weaponSwitcher = GetComponentInChildren<WeaponSwitcher>();
+    }
+
+    private void Start()
+    {
+        _weaponSwitcher.OnWeaponEnable += (Weapon w) => _weaponRenderer = w.GetComponent<SpriteRenderer>();
+    }
 
     private void Update()
     {
@@ -16,20 +30,27 @@ public class WeaponRotator : NetworkBehaviour
         {
             return;
         }
-        dir = RotateGun();
-        FlipGun(dir);
-        UpdateDir(dir);
+        _dir = RotateGun();
+        FlipGun(_dir);
+        HideGun(_dir);
+        UpdateDir(_dir);
+    }
+
+    private void HideGun(Vector2 dir)
+    {
+        bool hide = Vector2.Dot(Vector2.up, dir) > 0;
+        _weaponRenderer.sortingOrder = hide ? -1 : 1;
     }
 
     public Vector2 GetDir()
     {
-        return dir.normalized;
+        return _dir.normalized;
     }
 
     [Command]
     private void UpdateDir(Vector2 dir)
     {
-        this.dir = dir;
+        _dir = dir;
     }
 
     private void FlipGun(Vector2 dir)

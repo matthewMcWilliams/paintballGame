@@ -8,13 +8,16 @@ public class AgentInput : MonoBehaviour
     [SerializeField] private string _horizontalInputName = "Horizontal";
     [SerializeField] private string _verticalInputName = "Vertical";
     [SerializeField] private string _fireName = "Fire1";
+    [SerializeField] private string _switchWeaponPositiveName = "ScrollUp";
+    [SerializeField] private string _switchWeaponNegativeName = "ScrollDown";
 
     private Vector2 _input;
     private Vector2 _worldMousePos;
-    private bool _fire;
+    private bool _fireHold;
+    private bool _firePress;
+    private int _switchWeapon;
 
     private Camera _camera;
-
 
     private void Start()
     {
@@ -25,12 +28,9 @@ public class AgentInput : MonoBehaviour
     {
         CalculateMovement();
         CalculateMousePos();
-        CalculateFire();
-    }
-
-    private void CalculateFire()
-    {
-        _fire = Input.GetButtonDown(_fireName);
+        CalculateFireHold();
+        CalculateFirePress();
+        CalculateSwitchWeapon();
     }
 
     public Vector2 GetMovementInput()
@@ -43,9 +43,36 @@ public class AgentInput : MonoBehaviour
         return _worldMousePos;
     }
 
-    public bool GetFiring()
+    public bool GetFirePress()
     {
-        return _fire;
+        return _firePress;
+    }
+
+    public bool GetFireHold()
+    {
+        return _fireHold;
+    }
+
+    public int GetSwitchWeapon()
+    {
+        return _switchWeapon;
+    }
+
+    private void CalculateFirePress()
+    {
+        _firePress = Input.GetButtonDown(_fireName);
+    }
+
+    private void CalculateSwitchWeapon()
+    {
+        int positive = Input.GetButtonDown(_switchWeaponPositiveName) ? 1 : 0;
+        int negative = Input.GetButtonDown(_switchWeaponNegativeName) ? 1 : 0;
+        _switchWeapon = positive - negative;
+    }
+
+    private void CalculateFireHold()
+    {
+        _fireHold = Input.GetButton(_fireName);
     }
 
     private void CalculateMousePos()
