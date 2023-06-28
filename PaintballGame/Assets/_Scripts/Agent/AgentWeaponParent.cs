@@ -6,14 +6,16 @@ using UnityEngine;
 
 public class AgentWeaponParent : NetworkBehaviour
 {
+    public Weapon CurrentWeapon { get; private set; }
+    [field: SerializeField] public AgentInventoryManager Inventory { get; private set; }
+
     [SerializeField] private AgentInput _agentInput;
 
-    private Weapon _currentWeapon;
     private WeaponSwitcher _weaponSwitcher;
 
     private void Awake()
     {
-        _currentWeapon = GetComponentInChildren<Weapon>();
+        CurrentWeapon = GetComponentInChildren<Weapon>();
         _weaponSwitcher = GetComponent<WeaponSwitcher>();
     }
 
@@ -24,8 +26,8 @@ public class AgentWeaponParent : NetworkBehaviour
 
     private void WeaponSwitcher_OnWeaponEnable(Weapon weapon)
     {
-        _currentWeapon.Disable();
-        _currentWeapon = weapon;
+        CurrentWeapon.Disable();
+        CurrentWeapon = weapon;
     }
 
     private void Update()
@@ -37,11 +39,11 @@ public class AgentWeaponParent : NetworkBehaviour
     {
         if (!isLocalPlayer)
             return;
-        if (_agentInput.GetFireHold() && _currentWeapon.WeaponData.autoFire)
+        if (_agentInput.GetFireHold() && CurrentWeapon.WeaponData.autoFire)
         {
             CmdFire();
         }
-        else if (!_currentWeapon.WeaponData.autoFire && _agentInput.GetFirePress())
+        else if (!CurrentWeapon.WeaponData.autoFire && _agentInput.GetFirePress())
         {
             CmdFire();
         }
@@ -50,13 +52,7 @@ public class AgentWeaponParent : NetworkBehaviour
     [Command]
     private void CmdFire()
     {
-        RPCFire();
-    }
-
-    [ClientRpc]
-    private void RPCFire()
-    {
-        Debug.Log(_currentWeapon);
-        _currentWeapon.Fire();
+        Debug.Log(Inventory.AmmoCount);
+        CurrentWeapon.Fire();
     }
 }

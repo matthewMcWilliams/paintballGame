@@ -33,8 +33,7 @@ public class AgentRenderer : MonoBehaviour
     {
         bool running = _agentInput.GetMovementInput().magnitude > 0.1f;
         _controller.SetBool(_runParameter, running);
-        Vector2 velocity = _rb.velocity;
-        float dir = Mathf.Sign(velocity.x) * (_spriteRenderer.flipX?1:0);
+        float dir = Mathf.Sign(_rb.velocity.x) * (_spriteRenderer.flipX?1:-1);
         _controller.SetFloat(_speedParameter, dir);
     }
 }

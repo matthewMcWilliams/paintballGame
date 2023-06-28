@@ -11,7 +11,7 @@ public class WeaponDataSO : ScriptableObject
     [Range(0.01f, 5f)] public float fallRate;
     [Range(0f, 10f)] public float spreadAngle;
     // TODO: [Range(0f, 10f)] public float weight;
-    // TODO: [Range(0f, 100f)] public int ammoCapacity;
     [Range(0f, 1f)] public float switchTime = 0.4f;
+    [Range(0f, 100f)] public int ammoCapacity;
 
 }

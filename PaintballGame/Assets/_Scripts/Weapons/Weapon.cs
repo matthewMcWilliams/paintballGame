@@ -10,6 +10,7 @@ public class Weapon : MonoBehaviour
 
     [SerializeField] private GameObject _bullet;
     [SerializeField] private Transform _muzzle;
+    [SerializeField] private AgentWeaponParent _weaponParent;
 
     private bool _canShoot = true;
 
@@ -19,11 +20,19 @@ public class Weapon : MonoBehaviour
     private void Awake()
     {
         _weaponRotator = GetComponentInParent<WeaponRotator>();
+        _weaponParent ??= GetComponentInParent<AgentWeaponParent>();
+    }
+
+    private void Start()
+    {
+        if (isActiveAndEnabled)
+            _canShoot = true;
     }
 
     public void Fire()
     {
-        if (!_canShoot || !isActiveAndEnabled)
+        Debug.Log(_weaponParent.Inventory.AmmoCount);
+        if (!_canShoot || !isActiveAndEnabled || _weaponParent.Inventory.AmmoCount <= 0)
         {
             return;
         }
@@ -31,6 +40,7 @@ public class Weapon : MonoBehaviour
         var spread = GetSpread();
         bullet.GetComponent<Rigidbody2D>().velocity = spread * WeaponData.speed;
         NetworkServer.Spawn(bullet);
+        _weaponParent.Inventory.Shoot();
         Destroy(bullet, 1f / WeaponData.fallRate);
         StartCoroutine(ShootCoroutine());
     }
@@ -47,11 +57,20 @@ public class Weapon : MonoBehaviour
     {
         _canShoot = false;
         yield return new WaitForSeconds(WeaponData.rateOfFire);
-        _canShoot = true;
+        if (_weaponParent.Inventory.AmmoCount > 0)
+        {
+            _canShoot = true; 
+        }
+    }
+
+    private void OnEnable()
+    {
+        _canShoot = _weaponParent.Inventory.AmmoCount > 0;
+        
     }
 
     public void Disable()
     {
-        _canShoot = true;
+        _canShoot = _weaponParent.Inventory.AmmoCount > 0;
     }
 }

@@ -140,6 +140,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  <Inventory>k__BackingField: {fileID: 7928406423313615222}
   _agentInput: {fileID: 4242225728954281900}
 --- !u!114 &1117304858
 MonoBehaviour:
@@ -328,6 +329,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _runParameter: Running
+  _speedParameter: RunSpeed
   _agentInput: {fileID: 4242225728954281900}
 --- !u!1 &4242225728954281888
 GameObject:
@@ -343,6 +345,7 @@ GameObject:
   - component: {fileID: 4242225728954281891}
   - component: {fileID: 4242225728954281903}
   - component: {fileID: 4242225728954281902}
+  - component: {fileID: 7928406423313615222}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -474,6 +477,18 @@ MonoBehaviour:
   compressRotation: 0
   positionPrecision: 0.01
   scalePrecision: 0.01
+--- !u!114 &7928406423313615222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4242225728954281888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cb58c38bf64c964c9965af4470483f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6857217786501856620
 GameObject:
   m_ObjectHideFlags: 0
