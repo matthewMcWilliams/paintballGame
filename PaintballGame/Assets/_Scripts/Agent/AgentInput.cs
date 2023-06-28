@@ -8,8 +8,7 @@ public class AgentInput : MonoBehaviour
     [SerializeField] private string _horizontalInputName = "Horizontal";
     [SerializeField] private string _verticalInputName = "Vertical";
     [SerializeField] private string _fireName = "Fire1";
-    [SerializeField] private string _switchWeaponPositiveName = "ScrollUp";
-    [SerializeField] private string _switchWeaponNegativeName = "ScrollDown";
+    [SerializeField] private string _switchWeaponAxisName = "ScrollUp";
 
     private Vector2 _input;
     private Vector2 _worldMousePos;
@@ -65,8 +64,12 @@ public class AgentInput : MonoBehaviour
 
     private void CalculateSwitchWeapon()
     {
-        int positive = Input.GetButtonDown(_switchWeaponPositiveName) ? 1 : 0;
-        int negative = Input.GetButtonDown(_switchWeaponNegativeName) ? 1 : 0;
+        int positive = 0, negative = 0;
+        if (!string.IsNullOrEmpty(_switchWeaponAxisName))
+        {
+            positive = Input.GetAxisRaw(_switchWeaponAxisName) > 0.01f ? 1 : 0;
+            negative = Input.GetAxisRaw(_switchWeaponAxisName) < -0.01f ? 1 : 0;
+        }
         _switchWeapon = positive - negative;
     }
 

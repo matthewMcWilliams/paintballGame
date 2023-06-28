@@ -405,8 +405,7 @@ MonoBehaviour:
   _horizontalInputName: Horizontal
   _verticalInputName: Vertical
   _fireName: Fire1
-  _switchWeaponPositiveName: Mouse ScrollWheel
-  _switchWeaponNegativeName: Horizontal
+  _switchWeaponAxisName: Mouse ScrollWheel
 --- !u!114 &4242225728954281891
 MonoBehaviour:
   m_ObjectHideFlags: 0

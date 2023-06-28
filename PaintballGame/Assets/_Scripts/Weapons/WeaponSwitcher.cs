@@ -14,7 +14,7 @@ public class WeaponSwitcher : NetworkBehaviour
     [SerializeField] private Transform[] _weapons;
     [SerializeField] private AgentInput _agentInput;
 
-    
+    private bool _canSwitch = true;
 
     private static int PositiveModulo(int a, int b)
     {
@@ -30,12 +30,20 @@ public class WeaponSwitcher : NetworkBehaviour
 
     private void CheckForInput()
     {
-        if (_agentInput.GetSwitchWeapon() != 0 && isLocalPlayer)
+        if (_agentInput.GetSwitchWeapon() != 0 && isLocalPlayer && _canSwitch)
         {
             int weaponIndex = PositiveModulo(_currentWeaponIndex + _agentInput.GetSwitchWeapon(), _weapons.Length);
             _currentWeaponIndex = weaponIndex;
             ChangeWeapon(weaponIndex);
+            StartCoroutine(SwitchCoroutine());
         }
+    }
+
+    private IEnumerator SwitchCoroutine()
+    {
+        _canSwitch = false;
+        yield return new WaitForSeconds(CurrentWeapon.WeaponData.switchTime);
+        _canSwitch = true;
     }
 
     [Command]
