@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(PathDataSO))]
+[CustomEditor(typeof(Randomizable))]
 public class PathDataSOInspector : Editor
 {
     public override void OnInspectorGUI()
@@ -11,7 +11,7 @@ public class PathDataSOInspector : Editor
         base.OnInspectorGUI();
         if (GUILayout.Button("Randomize"))
         {
-            var path = target as PathDataSO;
+            var path = target as Randomizable;
             path.Randomize();
         }
     }

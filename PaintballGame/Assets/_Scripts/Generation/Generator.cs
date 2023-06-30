@@ -19,6 +19,7 @@ public class Generator : MonoBehaviour
             foreach (var rand in _randomizables)
             {
                 rand.Randomize();
+                rand.Bounds = _bounds;
             }
         }
 

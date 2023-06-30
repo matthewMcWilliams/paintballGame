@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class GrassHandler : TileHandler
 {
-    [SerializeField] private TileBase _grassTile;
+    [SerializeField] private TileTypeSO _grassTile;
 
     protected override bool TryHandling(int x, int y, Vector2Int mapSeedOffset)
     {

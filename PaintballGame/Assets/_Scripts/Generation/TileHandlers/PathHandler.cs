@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 public class PathHandler : TileHandler
 {
     [SerializeField] private PathDataSO _pathData;
-    [SerializeField] private TileBase _pathTile;
+    [SerializeField] private TileTypeSO _pathTile;
 
     protected override bool TryHandling(int x, int y, Vector2Int mapSeedOffset)
     {

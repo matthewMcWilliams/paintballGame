@@ -8,7 +8,6 @@ using Random = UnityEngine.Random;
 [CreateAssetMenu(fileName ="_PathData", menuName ="Generation/Path")]
 public class PathDataSO : Randomizable
 {
-    [SerializeField] private BoundsInt _bounds;
     [SerializeField] private int _xMargin, _yMargin;
     [SerializeField] private int _xPadding, _yPadding;
     [SerializeField] private int _thickness = 1;
@@ -95,11 +94,28 @@ public class PathDataSO : Randomizable
     {
         return quadrant switch
         {
-            Quadrant.Q1 => (Vector2Int)_bounds.max - pos,
-            Quadrant.Q2 => new Vector2Int { x=_bounds.xMin+pos.x, y = _bounds.yMax -pos.y },
-            Quadrant.Q3 => (Vector2Int)_bounds.min + pos,
-            Quadrant.Q4 => new Vector2Int { x = _bounds.xMax - pos.x, y = _bounds.yMin + pos.y },
+            Quadrant.Q1 => (Vector2Int)Bounds.max - pos,
+            Quadrant.Q2 => new Vector2Int { x=Bounds.xMin+pos.x, y = Bounds.yMax -pos.y },
+            Quadrant.Q3 => (Vector2Int)Bounds.min + pos,
+            Quadrant.Q4 => new Vector2Int { x = Bounds.xMax - pos.x, y = Bounds.yMin + pos.y },
             _ => Vector2Int.zero
         };
+    }
+
+    internal int NeighborCount(int x, int y)
+    {
+        int counter = 0;
+        counter += _pathPositions.Contains(new(x-1,y-1)) ? 1 : 0;
+        counter += _pathPositions.Contains(new(x, y - 1)) ? 1 : 0;
+        counter += _pathPositions.Contains(new(x + 1, y - 1)) ? 1 : 0;
+
+        counter += _pathPositions.Contains(new(x - 1, y )) ? 1 : 0;
+        counter += _pathPositions.Contains(new(x + 1, y )) ? 1 : 0;
+
+        counter += _pathPositions.Contains(new(x + 1, y + 1)) ? 1 : 0;
+        counter += _pathPositions.Contains(new(x, y - 1)) ? 1 : 0;
+        counter += _pathPositions.Contains(new(x - 1, y + 1)) ? 1 : 0;
+
+        return counter;
     }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GrassLands_PathData
   m_EditorClassIdentifier: 
   _bounds:
-    m_Position: {x: -63, y: -41, z: 0}
+    m_Position: {x: -63, y: -82, z: 0}
     m_Size: {x: 126, y: 82, z: 0}
   _xMargin: 6
   _yMargin: 20
@@ -22,5 +22,5 @@ MonoBehaviour:
   _thickness: 3
   _makeStartTrail: 1
   _makeEndTrail: 1
-  _startPos: {x: 0, y: 39}
-  _endPos: {x: 0, y: -30}
+  _startPos: {x: 0, y: -3}
+  _endPos: {x: 0, y: -82}

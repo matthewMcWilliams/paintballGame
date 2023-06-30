@@ -80,7 +80,10 @@ public class AgentInput : MonoBehaviour
 
     private void CalculateMousePos()
     {
-        _worldMousePos = _camera.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 pos = Input.mousePosition;
+        pos.x = Mathf.Clamp(pos.x, 0, Screen.width);
+        pos.y = Mathf.Clamp(pos.y, 0, Screen.height);
+        _worldMousePos = _camera.ScreenToWorldPoint(pos);
     }
 
     private void CalculateMovement()
