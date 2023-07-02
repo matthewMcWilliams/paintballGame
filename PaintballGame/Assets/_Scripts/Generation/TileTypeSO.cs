@@ -5,5 +5,6 @@ using UnityEngine.Tilemaps;
 public class TileTypeSO : ScriptableObject
 {
     public TileBase Tile;
-    public bool GenerateCollison = false;
+    public bool IsBush = false;
+    public bool IsTree = false;
 }

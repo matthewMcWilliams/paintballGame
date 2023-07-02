@@ -7,21 +7,27 @@ using UnityEngine.Tilemaps;
 public class TileSetCreator : Singleton<TileSetCreator>
 {
     [SerializeField] private Tilemap _groundTilemap;
-    [SerializeField] private Tilemap _collisionTilemap;
+    [SerializeField] private Tilemap _bushTilemap;
+    [SerializeField] private Tilemap _treeTilemap;
 
     public void SetTile(Vector2 worldPos, TileTypeSO tileData)
     {
         _groundTilemap.SetTile(_groundTilemap.WorldToCell(worldPos), tileData.Tile);
-        if (tileData.GenerateCollison)
+        if (tileData.IsBush)
         {
-            _collisionTilemap.SetTile(_collisionTilemap.WorldToCell(worldPos), tileData.Tile);
+            _bushTilemap.SetTile(_bushTilemap.WorldToCell(worldPos), tileData.Tile);
+        }
+        if (tileData.IsTree)
+        {
+            _treeTilemap.SetTile(_treeTilemap.WorldToCell(worldPos), tileData.Tile);
         }
     }
 
     public void Clear()
     {
         _groundTilemap.ClearAllTiles();
-        _collisionTilemap.ClearAllTiles();
+        _bushTilemap.ClearAllTiles();
+        _treeTilemap.ClearAllTiles();
     }
 
     public int NeighborCount(TileTypeSO pathTile, int x, int y)

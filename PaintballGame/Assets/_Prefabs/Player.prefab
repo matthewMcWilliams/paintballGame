@@ -425,7 +425,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _maxSpeed: 8.06
+  _slowSpeedBush: 3.5
+  _slowSpeedTree: 1.56
   _maxAcceleration: 30
+  _bushLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  _treeLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &4242225728954281903
 MonoBehaviour:
   m_ObjectHideFlags: 0

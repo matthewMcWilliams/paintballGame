@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 4186989411337988710}
   - component: {fileID: 2187524044211704599}
   - component: {fileID: 3634190941496073476}
+  - component: {fileID: 5578471226579961167}
+  - component: {fileID: 7289159993162608671}
   m_Layer: 6
   m_Name: Bullet
   m_TagString: Untagged
@@ -79,7 +81,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ed3bd09efb5488443b78c11edcf2e687, type: 3}
-  m_Color: {r: 0.9803386, g: 1, b: 0.21226418, a: 1}
+  m_Color: {r: 0.31764707, g: 0.7921569, b: 0.7647059, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -189,3 +191,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd7a7c8f55080f54997ad21cacaa9594, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _splatFeedback: {fileID: 5578471226579961167}
+  _goThroughBushChance: 0.5
+  _bushLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  _goThroughTreeChance: 0
+  _treeMask:
+    serializedVersion: 2
+    m_Bits: 256
+--- !u!114 &5578471226579961167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3391545023100677568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4088f1b83c90b84c947fb3e5c8d63be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _feedbacks:
+  - {fileID: 7289159993162608671}
+--- !u!114 &7289159993162608671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3391545023100677568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 236d9aeb50adf67409f3a66c1c0640ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _objectToInstanciate: {fileID: 3090395393870821881, guid: 34286489b06f4e3408ed3bccdea3373e, type: 3}
+  _randomRotation: 1
+  _positionRandomOffsetMultiplier: 0.4

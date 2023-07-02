@@ -14,6 +14,7 @@ public class Generator : MonoBehaviour
 
     public void Generate()
     {
+        Clear();
         if (_randomize)
         {
             foreach (var rand in _randomizables)

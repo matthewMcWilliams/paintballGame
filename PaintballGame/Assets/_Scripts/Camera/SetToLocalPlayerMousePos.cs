@@ -8,6 +8,8 @@ public class SetToLocalPlayerMousePos : NetworkBehaviour
     private AgentInput _agentInput;
     public override void OnStartClient()
     {
+        if (NetworkClient.localPlayer == null)
+            return;
         _agentInput = NetworkClient.localPlayer.GetComponent<AgentInput>();
     }
 

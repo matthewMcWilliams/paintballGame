@@ -15,7 +15,7 @@ MonoBehaviour:
   speed: 38.3
   rateOfFire: 0.07
   autoFire: 1
-  fallRate: 2
+  fallRate: 3
   spreadAngle: 1.41
   switchTime: 0.4
   ammoCapacity: 100
