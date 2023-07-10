@@ -1,46 +1,74 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class Bullet : MonoBehaviour
+public class Bullet : NetworkBehaviour
 {
-    [SerializeField] private FeedbackManager _splatFeedback;
+    [HideInInspector, SyncVar] public float DistanceToTravel;
+
+    [SerializeField] private UnityEvent _bulletDestroyed;
 
     [SerializeField] private float _goThroughBushChance = 0.5f;
     [SerializeField] private LayerMask _bushLayerMask;
     [SerializeField] private float _goThroughTreeChance = 0f;
     [SerializeField] private LayerMask _treeMask;
 
+    Vector3 _startPosition;
+
+    private void Start()
+    {
+        _startPosition = transform.position;
+    }
+
+    private void FixedUpdate()
+    {
+        if (isServer && Vector3.Distance(_startPosition, transform.position) > DistanceToTravel)
+        {
+            DestroyThisBullet();
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        DestroyBullet();
+        if (isServer)   
+            DestroyThisBullet();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        CheckCollision(collision);
+        if (isServer)
+            CheckCollision(collision);
     }
 
     private void CheckCollision(Collider2D collision)
     {
         if (_bushLayerMask.Contains(collision.gameObject.layer) && Random.Range(0f, 1f) > _goThroughBushChance)
         {
-            DestroyBullet();
+            DestroyThisBullet();
         }
         if (_treeMask.Contains(collision.gameObject.layer) && Random.Range(0f, 1f) > _goThroughTreeChance)
         {
-            DestroyBullet();
+            DestroyThisBullet();
         }
     }
 
-    private void DestroyBullet()
+    private void DestroyThisBullet()
+    {
+        SetPositionAndDestroy(transform.position);
+    }
+
+    [ClientRpc]
+    private void SetPositionAndDestroy(Vector3 position)
     {
         Destroy(gameObject, 0.01f);
+        transform.position = position;
     }
 
     private void OnDestroy()
     {
-        _splatFeedback.GiveFeedback();
+        _bulletDestroyed?.Invoke();
         
     }
 }

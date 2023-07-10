@@ -1,20 +1,24 @@
+using Mirror;
 using UnityEngine;
 
-public class AgentRenderer : MonoBehaviour
+public class AgentRenderer : NetworkBehaviour
 {
     [SerializeField] private string _runParameter = "Running";
     [SerializeField] private string _speedParameter = "RunSpeed";
-    [SerializeField] private AgentInput _agentInput;
+
+    [SyncVar] private bool _flipped = false;
 
     private Animator _controller;
     private SpriteRenderer _spriteRenderer;
     private Rigidbody2D _rb;
+    private IInputtable _agentInput;
 
     private void Awake()
     {
         _controller = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _rb = GetComponentInParent<Rigidbody2D>();
+        _agentInput = transform.root.GetComponent<IInputtable>();
     }
 
     private void Update()
@@ -25,8 +29,13 @@ public class AgentRenderer : MonoBehaviour
 
     private void UpdateDirection()
     {
-        bool flip = (_agentInput.GetMousePositionWorld() - (Vector2)transform.position).x < 0;
-        _spriteRenderer.flipX = flip;
+        _flipped = (_agentInput.GetMousePositionWorld() - (Vector2)transform.position).x < 0;
+        FlipCharacter(_flipped);
+    }
+
+    private void FlipCharacter(bool flipped)
+    {
+        _spriteRenderer.flipX = flipped;
     }
 
     private void UpdateAnimator()

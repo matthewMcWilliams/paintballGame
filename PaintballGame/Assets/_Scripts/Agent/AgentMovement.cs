@@ -13,12 +13,12 @@ public class AgentMovement : NetworkBehaviour
     private bool _colliding = false;
 
     private Rigidbody2D _rb;
-    private AgentInput _agentInput;
+    private IInputtable _agentInput;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _agentInput = GetComponent<AgentInput>();
+        _agentInput = GetComponent<IInputtable>();
         _speed = _maxSpeed;
     }
 
@@ -60,11 +60,8 @@ public class AgentMovement : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (isLocalPlayer)
-        {
-            var targetInput = _agentInput.GetMovementInput() * _speed;
-            _rb.velocity = Vector2.MoveTowards(_rb.velocity, targetInput, _maxAcceleration * Time.deltaTime);
-            _colliding = false;
-        }
+        var targetInput = _agentInput.GetMovementInput() * _speed;
+        _rb.velocity = Vector2.MoveTowards(_rb.velocity, targetInput, _maxAcceleration * Time.deltaTime);
+        _colliding = false;
     }
 }

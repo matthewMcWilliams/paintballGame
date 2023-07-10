@@ -12,9 +12,15 @@ public class WeaponSwitcher : NetworkBehaviour
     
     [SerializeField] private int _currentWeaponIndex;
     [SerializeField] private Transform[] _weapons;
-    [SerializeField] private AgentInput _agentInput;
+
+    private IInputtable _agentInput;
 
     private bool _canSwitch = true;
+
+    private void Awake()
+    {
+        _agentInput = transform.root.GetComponent<IInputtable>();
+    }
 
     private static int PositiveModulo(int a, int b)
     {

@@ -8,7 +8,7 @@ public class WeaponDataSO : ScriptableObject
     [Range(0, 50)] public float speed;
     [Range(0.01f, 1f)] public float rateOfFire;
     public bool autoFire;
-    [Range(0.01f, 5f)] public float fallRate;
+    [Range(0.01f, 15f)] public float distance;
     [Range(0f, 10f)] public float spreadAngle;
     // TODO: [Range(0f, 10f)] public float weight;
     [Range(0f, 1f)] public float switchTime = 0.4f;

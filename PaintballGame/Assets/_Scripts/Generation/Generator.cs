@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Generator : MonoBehaviour
+public class Generator : Singleton<Generator>
 {
-    [SerializeField] private BoundsInt _bounds;
+    public BoundsInt Bounds;
+
     [SerializeField] private TileHandler _firstHandler;
     [SerializeField] private List<Randomizable> _randomizables;
     [SerializeField] private bool _randomize;
@@ -20,13 +21,13 @@ public class Generator : MonoBehaviour
             foreach (var rand in _randomizables)
             {
                 rand.Randomize();
-                rand.Bounds = _bounds;
+                rand.Bounds = Bounds;
             }
         }
 
-        for (int x = _bounds.xMin; x < _bounds.xMax; x++)
+        for (int x = Bounds.xMin; x < Bounds.xMax; x++)
         {
-            for (int y = _bounds.yMin; y < _bounds.yMax; y++)
+            for (int y = Bounds.yMin; y < Bounds.yMax; y++)
             {
                 _firstHandler.Handle(x, y,Vector2Int.zero);
             }
@@ -38,6 +39,6 @@ public class Generator : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(_bounds.center, _bounds.size);
+        Gizmos.DrawWireCube(Bounds.center, Bounds.size);
     }
 }

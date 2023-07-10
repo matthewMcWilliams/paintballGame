@@ -9,7 +9,7 @@ public class SetLocalPlayer : NetworkBehaviour
 {
     public override void OnStartClient()
     {
-        Debug.Log("CONNECTED");
+        //Debug.Log("CONNECTED");
         if (NetworkClient.localPlayer == null)
         {
             StartCoroutine(CouldNotConnectCoroutine());
@@ -17,6 +17,7 @@ public class SetLocalPlayer : NetworkBehaviour
         }
         Transform localPlayer = NetworkClient.localPlayer.transform;
         GetComponent<CinemachineTargetGroup>().m_Targets[0].target = localPlayer;
+        //Debug.Log(localPlayer.position);
     }
 
     private IEnumerator CouldNotConnectCoroutine()

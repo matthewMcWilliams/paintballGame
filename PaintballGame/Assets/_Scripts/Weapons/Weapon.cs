@@ -11,15 +11,15 @@ public class Weapon : MonoBehaviour
     [SerializeField] private GameObject _bullet;
     [SerializeField] private Transform _muzzle;
     [SerializeField] private AgentWeaponParent _weaponParent;
+    [SerializeField] private WeaponRotator _weaponRotator;
 
     private bool _canShoot = true;
 
-    private WeaponRotator _weaponRotator;
 
 
     private void Awake()
     {
-        _weaponRotator = GetComponentInParent<WeaponRotator>();
+        _weaponRotator ??= GetComponentInParent<WeaponRotator>();
         _weaponParent ??= GetComponentInParent<AgentWeaponParent>();
     }
 
@@ -41,8 +41,11 @@ public class Weapon : MonoBehaviour
         bullet.GetComponent<Rigidbody2D>().velocity = spread * WeaponData.speed;
         NetworkServer.Spawn(bullet);
         _weaponParent.Inventory.Shoot();
-        Destroy(bullet, 1f / WeaponData.fallRate);
         StartCoroutine(ShootCoroutine());
+        if (bullet.TryGetComponent(out Bullet bulletScript))
+        {
+            bulletScript.DistanceToTravel = WeaponData.distance;
+        }
     }
 
     private Vector2 GetSpread()

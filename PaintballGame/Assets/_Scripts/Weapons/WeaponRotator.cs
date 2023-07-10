@@ -7,16 +7,17 @@ using UnityEngine;
 public class WeaponRotator : NetworkBehaviour
 {
     [SerializeField] private Transform _rotateThis;
-    [SerializeField] private AgentInput _agentInput;
     [SerializeField] private SpriteRenderer _weaponRenderer;
 
     [SyncVar] private Vector2 _dir = Vector2.right;
 
+    private IInputtable _agentInput;
     private WeaponSwitcher _weaponSwitcher;
 
     private void Awake()
     {
         _weaponSwitcher = GetComponentInChildren<WeaponSwitcher>();
+        _agentInput = transform.root.GetComponent<IInputtable>();
     }
 
     private void Start()
@@ -26,11 +27,8 @@ public class WeaponRotator : NetworkBehaviour
 
     private void Update()
     {
-        if (!isLocalPlayer || !Application.isFocused)
-        {
-            return;
-        }
         _dir = RotateGun();
+        
         FlipGun(_dir);
         HideGun(_dir);
         UpdateDir(_dir);
@@ -47,7 +45,7 @@ public class WeaponRotator : NetworkBehaviour
         return _dir.normalized;
     }
 
-    [Command]
+
     private void UpdateDir(Vector2 dir)
     {
         _dir = dir;
@@ -61,9 +59,22 @@ public class WeaponRotator : NetworkBehaviour
 
     private Vector2 RotateGun()
     {
-        Vector2 dir = _agentInput.GetMousePositionWorld() - (Vector2)transform.position;
+        Vector2 dir = NewMethod();
         Quaternion rotation = new Quaternion { eulerAngles = new(0, 0, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg) };
         transform.rotation = rotation;
         return dir;
+    }
+
+    private Vector2 NewMethod()
+    {
+        return _agentInput.GetMousePositionWorld() - (Vector2)transform.position;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.white;
+
+        if (_agentInput != null)
+            Gizmos.DrawSphere(_agentInput.GetMousePositionWorld(), 1f);
     }
 }

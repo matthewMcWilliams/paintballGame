@@ -9,7 +9,7 @@ public class AgentWeaponParent : NetworkBehaviour
     public Weapon CurrentWeapon { get; private set; }
     [field: SerializeField] public AgentInventoryManager Inventory { get; private set; }
 
-    [SerializeField] private AgentInput _agentInput;
+    private IInputtable _agentInput;
 
     private WeaponSwitcher _weaponSwitcher;
 
@@ -17,6 +17,7 @@ public class AgentWeaponParent : NetworkBehaviour
     {
         CurrentWeapon = GetComponentInChildren<Weapon>();
         _weaponSwitcher = GetComponent<WeaponSwitcher>();
+        _agentInput = transform.root.GetComponent<IInputtable>();
     }
 
     private void Start()
@@ -37,22 +38,23 @@ public class AgentWeaponParent : NetworkBehaviour
 
     private void CheckForInput()
     {
-        if (!isLocalPlayer)
+        if (!isServer)
             return;
         if (_agentInput.GetFireHold() && CurrentWeapon.WeaponData.autoFire)
         {
-            CmdFire();
+            Fire();
         }
         else if (!CurrentWeapon.WeaponData.autoFire && _agentInput.GetFirePress())
         {
-            CmdFire();
+            Fire();
         }
     }
 
-    [Command]
-    private void CmdFire()
+    private void Fire()
     {
         Debug.Log(Inventory.AmmoCount);
-        CurrentWeapon.Fire();
+        if (isServer)
+            CurrentWeapon.Fire();
+
     }
 }

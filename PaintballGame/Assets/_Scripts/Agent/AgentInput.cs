@@ -2,19 +2,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class AgentInput : MonoBehaviour
+public class AgentInput : NetworkBehaviour, IInputtable
 {
     [SerializeField] private string _horizontalInputName = "Horizontal";
     [SerializeField] private string _verticalInputName = "Vertical";
     [SerializeField] private string _fireName = "Fire1";
     [SerializeField] private string _switchWeaponAxisName = "ScrollUp";
 
-    private Vector2 _input;
-    private Vector2 _worldMousePos;
-    private bool _fireHold;
-    private bool _firePress;
-    private int _switchWeapon;
+    [SyncVar] private Vector2 _input;
+    [SyncVar] private Vector2 _worldMousePos;
+    [SyncVar] private bool _fireHold;
+    [SyncVar] private bool _firePress;
+    [SyncVar] private int _switchWeapon;
 
     private Camera _camera;
 
@@ -25,6 +26,9 @@ public class AgentInput : MonoBehaviour
 
     private void Update()
     {
+        if (!isLocalPlayer)
+            return;
+
         CalculateMovement();
         CalculateMousePos();
         CalculateFireHold();
@@ -92,5 +96,9 @@ public class AgentInput : MonoBehaviour
             Input.GetAxisRaw(_horizontalInputName),
             Input.GetAxisRaw(_verticalInputName)
             );
+        if (_input.sqrMagnitude > 1)
+        {
+            _input.Normalize();
+        }
     }
 }
