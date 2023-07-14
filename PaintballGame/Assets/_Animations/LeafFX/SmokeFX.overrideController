@@ -1,0 +1,13 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SmokeFX
+  m_Controller: {fileID: 9100000, guid: 7803f6734db557c41b1e527c528e47ef, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: f365e02afe265cd4e99e8ddf26ccb096, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 065682322fcff5440bc1c62a3efcfdb3, type: 2}

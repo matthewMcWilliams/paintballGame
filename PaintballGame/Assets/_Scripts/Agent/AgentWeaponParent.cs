@@ -54,7 +54,7 @@ public class AgentWeaponParent : NetworkBehaviour
     {
         Debug.Log(Inventory.AmmoCount);
         if (isServer)
-            CurrentWeapon.Fire();
+            CurrentWeapon.Fire(Inventory.BulletData);
 
     }
 }

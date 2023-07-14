@@ -1,8 +1,11 @@
 using Mirror;
+using System;
 using UnityEngine;
 
 public class AgentRenderer : NetworkBehaviour
 {
+    [field: SyncVar] public bool Visible { set; get; } = true;
+
     [SerializeField] private string _runParameter = "Running";
     [SerializeField] private string _speedParameter = "RunSpeed";
 
@@ -25,6 +28,16 @@ public class AgentRenderer : NetworkBehaviour
     {
         UpdateAnimator();
         UpdateDirection();
+        UpdateVisibility();
+    }
+
+    private void UpdateVisibility()
+    {
+        SpriteRenderer[] renderers = transform.root.GetComponentsInChildren<SpriteRenderer>();
+        foreach (var renderer in renderers)
+        {
+            renderer.enabled = Visible;
+        }
     }
 
     private void UpdateDirection()
@@ -37,6 +50,7 @@ public class AgentRenderer : NetworkBehaviour
     {
         _spriteRenderer.flipX = flipped;
     }
+
 
     private void UpdateAnimator()
     {

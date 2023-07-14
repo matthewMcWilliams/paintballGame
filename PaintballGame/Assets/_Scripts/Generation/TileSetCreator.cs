@@ -10,8 +10,12 @@ public class TileSetCreator : Singleton<TileSetCreator>
     [SerializeField] private Tilemap _bushTilemap;
     [SerializeField] private Tilemap _treeTilemap;
 
+    Dictionary<Vector2Int, TileTypeSO> _tileDictionary = new();
+
     public void SetTile(Vector2 worldPos, TileTypeSO tileData)
     {
+        _tileDictionary.Add(Vector2Int.RoundToInt(worldPos), tileData);
+
         _groundTilemap.SetTile(_groundTilemap.WorldToCell(worldPos), tileData.Tile);
         if (tileData.IsBush)
         {
@@ -25,6 +29,7 @@ public class TileSetCreator : Singleton<TileSetCreator>
 
     public void Clear()
     {
+        _tileDictionary.Clear();
         _groundTilemap.ClearAllTiles();
         _bushTilemap.ClearAllTiles();
         _treeTilemap.ClearAllTiles();
@@ -42,5 +47,10 @@ public class TileSetCreator : Singleton<TileSetCreator>
         counter += (_groundTilemap.GetTile(new(x, y+1)) == pathTile.Tile) ? 1 : 0;
         counter += (_groundTilemap.GetTile(new(x+1, y+1)) == pathTile.Tile) ? 1 : 0;
         return counter;
+    }
+
+    internal TileTypeSO GetTile(int x, int y)
+    {
+        return _tileDictionary.GetValueOrDefault(new(x, y));
     }
 }

@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: Path_TileType
   m_EditorClassIdentifier: 
   Tile: {fileID: 11400000, guid: ab4c41643735858499612334a6e7e09f, type: 2}
-  GenerateCollison: 0
+  IsBush: 0
+  IsTree: 0
+  MapColor: {r: 0.93725497, g: 0.8941177, b: 0.6901961, a: 0}

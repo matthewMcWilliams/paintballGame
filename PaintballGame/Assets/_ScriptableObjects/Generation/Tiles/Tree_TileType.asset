@@ -15,3 +15,4 @@ MonoBehaviour:
   Tile: {fileID: 11400000, guid: ac9b9c99a5c73874b8b0324a78001faf, type: 2}
   IsBush: 0
   IsTree: 1
+  MapColor: {r: 0, g: 0.25490198, b: 0, a: 0}

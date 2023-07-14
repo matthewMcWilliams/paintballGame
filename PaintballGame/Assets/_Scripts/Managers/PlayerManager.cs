@@ -46,7 +46,7 @@ public class PlayerManager : Singleton<PlayerManager>
         foreach (var player in Players)
         {
             float distance = Vector3.Distance(from.position, player.position);
-            if(distance != 0 && distance < minimumDistance)
+            if(distance != 0 && distance < minimumDistance && player.GetComponentInChildren<SpriteRenderer>().enabled)
             {
                 closestPlayer = player;
                 minimumDistance = distance;

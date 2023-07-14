@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 536ba159ac8ba764dbebb67b45d946ed, type: 3}
   m_Name: Bush_TileType
   m_EditorClassIdentifier: 
-  Tile: {fileID: 11400000, guid: a4c1c86bcf9c0cc4786df085a897d3eb, type: 2}
+  Tile: {fileID: 11400000, guid: 4db158332f4344943b0292be2e0b55aa, type: 2}
   IsBush: 1
   IsTree: 0
+  MapColor: {r: 0.12941177, g: 0.69411767, b: 0.3019608, a: 0}

@@ -1,4 +1,5 @@
 using Mirror;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,13 +10,27 @@ public class MinimapScript : NetworkBehaviour
 
     public override void OnStartClient()
     {
-        _player = NetworkClient.localPlayer.transform;
+        var localPlayer = NetworkClient.localPlayer;
+        if (localPlayer != null)
+        {
+            _player = localPlayer.transform;
+
+        }
     }
 
     private void LateUpdate()
     {
         if (_player == null)
+        {
+            OnStartClient();
             return;
+        }
+        SetPosition();
+    }
+
+
+    private void SetPosition()
+    {
         Vector3 newPosition = _player.position;
         newPosition.z = transform.position.z;
         transform.position = newPosition;

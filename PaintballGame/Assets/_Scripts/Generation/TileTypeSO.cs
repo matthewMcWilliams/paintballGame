@@ -7,4 +7,5 @@ public class TileTypeSO : ScriptableObject
     public TileBase Tile;
     public bool IsBush = false;
     public bool IsTree = false;
+    public Color MapColor;
 }
