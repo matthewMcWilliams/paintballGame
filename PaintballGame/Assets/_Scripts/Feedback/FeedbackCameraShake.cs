@@ -11,6 +11,6 @@ public class FeedbackCameraShake : Feedback
     {
         if ((!_localPlayerOnly && !isLocalPlayer))
             return;
-        ScreenShake.Instance.Shake(_duration, _magnitude);
+        ScreenShake.ShakeAllCameras(_duration, _magnitude);
     }
 }

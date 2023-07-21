@@ -10,13 +10,14 @@ public class AgentCamoflague : MonoBehaviour
 
     private IInputtable _input;
     private AgentInventoryManager _inventory;
-    private AgentRenderer _renderer;
+    private AgentRenderer _agentRendererBody, _agentRendererHead;
 
     private void Awake()
     {
         _input = transform.root.GetComponent<IInputtable>();
         _inventory = transform.root.GetComponent<AgentInventoryManager>();
-        _renderer = GetComponent<AgentRenderer>();
+        _agentRendererBody = GetComponent<AgentRenderer>();
+        _agentRendererHead = GetComponentInChildren<AgentRenderer>();
     }
 
     private void Update()
@@ -32,12 +33,14 @@ public class AgentCamoflague : MonoBehaviour
         {
             // The agent is moving and/or shooting.
             _timer = 0f;
-            _renderer.Visible = true;
+            _agentRendererBody.Visible = true;
+            _agentRendererHead.Visible = true;
         }
 
         if (_timer > CalculateWaitTime(_inventory.ArmorData.CamoFactor) || _hidingTimer > 0)
         {
-            _renderer.Visible = false;
+            _agentRendererBody.Visible = false;
+            _agentRendererHead.Visible = false;
         }
     }
 

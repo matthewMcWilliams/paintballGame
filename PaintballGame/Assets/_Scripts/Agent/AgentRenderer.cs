@@ -6,20 +6,31 @@ public class AgentRenderer : NetworkBehaviour
 {
     [field: SyncVar] public bool Visible { set; get; } = true;
 
+    private Color _teamColor = Color.white;
+    public Color TeamColor
+    {
+        get => _teamColor; 
+        set
+        {
+            _teamColor = value;
+        }
+    }
+
     [SerializeField] private string _runParameter = "Running";
     [SerializeField] private string _speedParameter = "RunSpeed";
 
     [SyncVar] private bool _flipped = false;
 
     private Animator _controller;
-    private SpriteRenderer _spriteRenderer;
+    private SpriteRenderer _spriteRendererBody, _spriteRendererHead;
     private Rigidbody2D _rb;
     private IInputtable _agentInput;
 
     private void Awake()
     {
         _controller = GetComponent<Animator>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _spriteRendererBody = GetComponent<SpriteRenderer>();
+        _spriteRendererHead = transform.GetChild(0).GetComponent<SpriteRenderer>();
         _rb = GetComponentInParent<Rigidbody2D>();
         _agentInput = transform.root.GetComponent<IInputtable>();
     }
@@ -29,6 +40,12 @@ public class AgentRenderer : NetworkBehaviour
         UpdateAnimator();
         UpdateDirection();
         UpdateVisibility();
+        UpdateColor();
+    }
+
+    private void UpdateColor()
+    {
+        _spriteRendererBody.color = _teamColor;
     }
 
     private void UpdateVisibility()
@@ -48,7 +65,9 @@ public class AgentRenderer : NetworkBehaviour
 
     private void FlipCharacter(bool flipped)
     {
-        _spriteRenderer.flipX = flipped;
+        _spriteRendererBody.flipX = flipped;
+        _spriteRendererHead.flipX = flipped;
+        Debug.Log(_spriteRendererHead.gameObject.name);
     }
 
 
@@ -56,7 +75,7 @@ public class AgentRenderer : NetworkBehaviour
     {
         bool running = _agentInput.GetMovementInput().magnitude > 0.1f;
         _controller.SetBool(_runParameter, running);
-        float dir = Mathf.Sign(_rb.velocity.x) * (_spriteRenderer.flipX?1:-1);
+        float dir = Mathf.Sign(_rb.velocity.x) * (_spriteRendererBody.flipX ? 1 : -1);
         _controller.SetFloat(_speedParameter, dir);
     }
 }

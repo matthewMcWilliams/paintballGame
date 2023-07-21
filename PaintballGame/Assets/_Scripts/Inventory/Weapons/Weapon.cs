@@ -35,7 +35,7 @@ public class Weapon : MonoBehaviour
 
     public void Fire(BulletDataSO bulletData)
     {
-        Debug.Log(_weaponParent.Inventory.AmmoCount);
+        //Debug.Log(_weaponParent.Inventory.AmmoCount);
         if (!_canShoot || !isActiveAndEnabled || _weaponParent.Inventory.AmmoCount <= 0)
         {
             return;

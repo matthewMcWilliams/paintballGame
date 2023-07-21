@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class ScreenShake : Singleton<ScreenShake>
+public class ScreenShake : MonoBehaviour
 {
     [SerializeField] private AnimationCurve _shakeCurve;
     private CinemachineVirtualCamera _camera;
@@ -24,6 +24,14 @@ public class ScreenShake : Singleton<ScreenShake>
             CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = _camera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
             cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = _shakeCurve.Evaluate(1 - (_shakeTimer / _shakeLength) * _magnitude);
+        }
+    }
+
+    public static void ShakeAllCameras(float timer, float intensity)
+    {
+        foreach (var item in FindObjectsOfType<ScreenShake>())
+        {
+            item.Shake(timer, intensity);
         }
     }
 

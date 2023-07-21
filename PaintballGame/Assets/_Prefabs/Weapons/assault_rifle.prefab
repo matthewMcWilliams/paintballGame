@@ -170,10 +170,11 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  _duration: 0.1
-  _magnitude: 0.1
+  _duration: 0.03
+  _magnitude: 0
   _target: {fileID: 3320497321866421897}
   _sync: 1
+  _targetOffset: {x: -0.2, y: 0}
 --- !u!114 &8275600878776101668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,9 +212,9 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 0
-  MinDistance: 0
-  MaxDistance: 0.01
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 80
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -248,7 +249,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

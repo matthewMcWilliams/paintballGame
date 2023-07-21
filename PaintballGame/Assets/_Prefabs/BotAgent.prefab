@@ -190,6 +190,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd0da03bb0e5cf41bd18fe4d83d02e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _firePressMin: 0.2
+  _firePressMax: 0.3
   _firePress: 1
   _fireHold: 1
 --- !u!1 &2894396768569422406
@@ -472,6 +474,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd0da03bb0e5cf41bd18fe4d83d02e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _firePressMin: 50
+  _firePressMax: 60
   _firePress: 0
   _fireHold: 0
 --- !u!1 &2894396769188571130
@@ -491,6 +495,7 @@ GameObject:
   - component: {fileID: 2894396769188570113}
   - component: {fileID: 4730643704402982460}
   - component: {fileID: 4640611000735855756}
+  - component: {fileID: 5658887591325618982}
   m_Layer: 3
   m_Name: BotAgent
   m_TagString: Player
@@ -674,6 +679,19 @@ MonoBehaviour:
   syncAngularVelocity: 1
   clearAngularVelocity: 0
   angularVelocitySensitivity: 0.1
+--- !u!114 &5658887591325618982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2894396769188571130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ec52d09912b2ca449310fd2657cbf8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TeamNumber: 0
 --- !u!1 &2894396769795558607
 GameObject:
   m_ObjectHideFlags: 0
@@ -889,7 +907,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd0da03bb0e5cf41bd18fe4d83d02e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _firePress: 0
+  _firePressMin: 0.2
+  _firePressMax: 0.3
+  _firePress: 1
   _fireHold: 0
 --- !u!114 &2894396770099323335
 MonoBehaviour:

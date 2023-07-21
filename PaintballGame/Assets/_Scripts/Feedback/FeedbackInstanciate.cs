@@ -25,6 +25,9 @@ public class FeedbackInstanciate : Feedback
         var thing = Instantiate(_objectToInstanciate, transform.position + (Vector3)Random.insideUnitCircle * _positionRandomOffsetMultiplier, rotation);
         float scale = Random.Range(_minScale, _maxScale);
         thing.transform.localScale = new(scale, scale, 1);
-        NetworkServer.Spawn(thing);
+        if (NetworkServer.active)
+        {
+            NetworkServer.Spawn(thing); 
+        }
     }
 }

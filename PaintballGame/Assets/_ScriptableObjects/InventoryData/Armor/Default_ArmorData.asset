@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Default_ArmorData
   m_EditorClassIdentifier: 
   BounceChance: 0.6
-  CamoFactor: 0.786
+  CamoFactor: 0.427

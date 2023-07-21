@@ -10,7 +10,7 @@ public class DecisionSuccessOnClosestPlayerDie : Decision
     public override Node.Status MakeDecision()
     {
         var oldClosestPlayer = _closestPlayer;
-        var otherPlayerTransform = PlayerManager.Instance.FindClosestPlayer(transform);
+        var otherPlayerTransform = PlayerManager.Instance.FindClosestOpponent(transform);
         if (otherPlayerTransform == null)
             return Node.Status.SUCCESS;
 
@@ -36,7 +36,7 @@ public class DecisionSuccessOnClosestPlayerDie : Decision
         oldClosestPlayer.OnDie -= ClosestPlayer_OnDie;
     }
 
-    private void ClosestPlayer_OnDie()
+    private void ClosestPlayer_OnDie(Transform _)
     {
         _status = Node.Status.SUCCESS;
     }

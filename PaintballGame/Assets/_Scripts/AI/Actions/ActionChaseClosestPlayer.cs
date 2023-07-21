@@ -15,7 +15,7 @@ public class ActionChaseClosestPlayer : Action
 
     public override void TakeAction()
     {
-        Transform player = PlayerManager.Instance.FindClosestPlayer(transform);
+        Transform player = PlayerManager.Instance.FindClosestOpponent(transform);
         if (player == null)
             return;
         _inputData.MovementInput = (player.position - transform.position).normalized * _chaseSpeed;

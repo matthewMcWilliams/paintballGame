@@ -32,7 +32,7 @@ public class ActionAimAtClosestPlayer : Action
 
     private Vector2 GetTarget()
     {
-        var player = PlayerManager.Instance.FindClosestPlayer(transform) ?? transform;
+        var player = PlayerManager.Instance.FindClosestOpponent(transform) ?? transform;
         Vector2 target = player.position;
         float angle = Mathf.Atan2(target.y, target.x);
         float distance = target.magnitude;

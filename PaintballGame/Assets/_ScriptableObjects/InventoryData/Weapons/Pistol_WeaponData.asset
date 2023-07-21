@@ -17,5 +17,5 @@ MonoBehaviour:
   rateOfFire: 0.345
   autoFire: 0
   distance: 12.5
-  spreadAngle: 5
+  spreadAngle: 6.7
   switchTime: 0.4

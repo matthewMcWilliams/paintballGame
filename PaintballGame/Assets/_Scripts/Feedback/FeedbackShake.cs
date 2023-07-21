@@ -8,6 +8,7 @@ public class FeedbackShake : Feedback
     [SerializeField] private float _duration, _magnitude = 1f;
     [SerializeField] private Transform _target;
     [SerializeField] private bool _sync = true;
+    [SerializeField] private Vector2 _targetOffset = Vector2.zero;
 
     public override void Invoke()
     {
@@ -37,7 +38,7 @@ public class FeedbackShake : Feedback
         while (elapsedTime < _duration)
         {
             elapsedTime += Time.deltaTime;
-            _target.localPosition = startPosition + (Vector3)Random.insideUnitCircle * _magnitude;
+            _target.localPosition = startPosition + (Vector3)_targetOffset + (Vector3)Random.insideUnitCircle * _magnitude;
             yield return null;
         }
 

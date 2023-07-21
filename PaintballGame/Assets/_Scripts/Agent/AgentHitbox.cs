@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 public class AgentHitbox : NetworkBehaviour
 {
-    public event System.Action OnDie;
+    public event System.Action<Transform> OnDie;
 
     [SerializeField] private UnityEvent _onPlayerDie, _onBounce;
     [SerializeField] private LayerMask _bulletMask;
@@ -67,7 +67,7 @@ public class AgentHitbox : NetworkBehaviour
     {
         DestroyPlayer();
         Destroy(collider.gameObject);
-        OnDie?.Invoke();
+        OnDie?.Invoke(transform.root);
         _onPlayerDie?.Invoke();
     }
 

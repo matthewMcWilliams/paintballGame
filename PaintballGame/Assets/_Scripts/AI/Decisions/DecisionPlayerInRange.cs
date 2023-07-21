@@ -9,7 +9,7 @@ public class DecisionPlayerInRange : Decision
     [SerializeField] private Node.Status _statusOnEnter = Node.Status.SUCCESS;
     public override Node.Status MakeDecision()
     {
-        foreach (var player in PlayerManager.Instance.Players)
+        foreach (var player in PlayerManager.Instance.GetOpponents(transform))
         {
             float distance = Vector2.Distance(player.position, transform.position);
             if (distance < _checkDistance && distance != 0)
