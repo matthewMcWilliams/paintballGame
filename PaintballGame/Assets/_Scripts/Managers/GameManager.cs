@@ -12,12 +12,15 @@ public class GameManager : NetworkBehaviour
     public string PlayerText => Mode != null ? Mode.Text : _defaultName;
 
     public GameMode Mode => _modes[_modeIndex];
+    [HideInInspector] public bool GameOver;
+
+    public Collider2D RespawnRoom;
+    public CinemachineVirtualCamera GameVCam;
 
     [SerializeField] private string _defaultName;
 
     [SerializeField] private List<GameMode> _modes;
     [SerializeField] private GameObject _botPrefab;
-    [SerializeField] private CinemachineVirtualCamera _gameVCam;
 
     [SyncVar] private int _modeIndex;
 
@@ -63,7 +66,7 @@ public class GameManager : NetworkBehaviour
 
         if (players.Any(p => p.transform == NetworkClient.localPlayer.transform))
         {
-            _gameVCam.Priority = 20; 
+            GameVCam.Priority = 20; 
         }
     }
 
@@ -71,7 +74,8 @@ public class GameManager : NetworkBehaviour
     {
         if (Mode != null)
         {
-            Debug.Log($"Game Over? {Mode.CheckWinCondition(Players)}!");
+            GameOver = Mode.CheckWinCondition(Players);
+            Debug.Log($"Game Over? {GameOver}!");
         }
     }
 

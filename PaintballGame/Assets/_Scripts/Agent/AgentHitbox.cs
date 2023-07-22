@@ -65,10 +65,30 @@ public class AgentHitbox : NetworkBehaviour
 
     private void Die(Collider2D collider)
     {
-        DestroyPlayer();
-        Destroy(collider.gameObject);
         OnDie?.Invoke(transform.root);
+        Destroy(collider.gameObject);
         _onPlayerDie?.Invoke();
+
+        if (transform.root.GetComponent<AIBehavior>())
+        {
+            DestroyPlayer();
+            return;
+        }
+
+        if (isLocalPlayer)
+        {
+            GameManager.Instance.GameVCam.Priority = 10;
+        }
+
+        Bounds respawnRoom = GameManager.Instance.RespawnRoom.bounds ;
+        //respawnRoom.center += GameManager.Instance.RespawnRoom.transform.position;
+        //Debug.Log(respawnRoom);
+
+        transform.root.position = new Vector3(
+            Random.Range(respawnRoom.min.x, respawnRoom.max.x),
+            Random.Range(respawnRoom.min.y, respawnRoom.max.y)
+            );
+
     }
 
     [ClientRpc]

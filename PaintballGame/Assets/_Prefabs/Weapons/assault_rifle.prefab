@@ -191,7 +191,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _duration: 0.2
-  _magnitude: 1
+  _magnitude: 2
   _localPlayerOnly: 1
 --- !u!82 &1318272264753631139
 AudioSource:
