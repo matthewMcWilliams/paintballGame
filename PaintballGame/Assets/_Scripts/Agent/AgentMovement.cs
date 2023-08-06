@@ -58,6 +58,10 @@ public class AgentMovement : NetworkBehaviour
 
     private void FixedUpdate()
     {
+        if (!GameManager.Instance.CountdownFinished && GameManager.Instance.PlayersInPosition)
+        {
+            return;
+        }
         var targetInput = _agentInput.GetMovementInput() * _speed;
         if ((_rb.velocity.sqrMagnitude < targetInput.sqrMagnitude && !_colliding) || targetInput != Vector2.zero)
         {

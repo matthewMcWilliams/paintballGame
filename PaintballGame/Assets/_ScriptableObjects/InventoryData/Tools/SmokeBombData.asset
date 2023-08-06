@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02c49d037354a6449868272f437d1410, type: 3}
   m_Name: SmokeBombData
   m_EditorClassIdentifier: 
-  ToolName: Smoke Bomb
+  Name: Smoke Bomb
+  Description: A smoke bomb that leaves you invisible for a set amount of time.
   Length: 3
   Prefab: {fileID: 1289415906486845292, guid: 81796a673df4b374989f4b990775ff53, type: 3}

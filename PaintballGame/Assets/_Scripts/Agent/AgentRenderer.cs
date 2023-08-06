@@ -67,7 +67,6 @@ public class AgentRenderer : NetworkBehaviour
     {
         _spriteRendererBody.flipX = flipped;
         _spriteRendererHead.flipX = flipped;
-        Debug.Log(_spriteRendererHead.gameObject.name);
     }
 
 

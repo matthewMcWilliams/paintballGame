@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class AgentWeaponParent : NetworkBehaviour
 {
-    public Weapon CurrentWeapon { get; private set; }
+    public Weapon CurrentWeapon => _weaponSwitcher.CurrentWeapon;
     [field: SerializeField] public AgentInventoryManager Inventory { get; private set; }
 
     private IInputtable _agentInput;
@@ -15,7 +15,6 @@ public class AgentWeaponParent : NetworkBehaviour
 
     private void Awake()
     {
-        CurrentWeapon = GetComponentInChildren<Weapon>();
         _weaponSwitcher = GetComponent<WeaponSwitcher>();
         _agentInput = transform.root.GetComponent<IInputtable>();
     }
@@ -28,11 +27,14 @@ public class AgentWeaponParent : NetworkBehaviour
     private void WeaponSwitcher_OnWeaponEnable(Weapon weapon)
     {
         CurrentWeapon.Disable();
-        CurrentWeapon = weapon;
     }
 
     private void Update()
     {
+        if (!GameManager.Instance.CountdownFinished && GameManager.Instance.PlayersInPosition)
+        {
+            return;
+        }
         CheckForInput();
     }
 

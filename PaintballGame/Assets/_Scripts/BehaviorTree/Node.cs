@@ -28,7 +28,7 @@ public class Node : MonoBehaviour
 
     public virtual Status Process()
     {
-        return children[currentChild].Process();
+        return Status.RUNNING;
     }
 
     public string PrintNode(int indention)

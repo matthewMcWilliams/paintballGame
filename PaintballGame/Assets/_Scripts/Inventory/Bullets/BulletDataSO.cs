@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "_BulletData", menuName = "Weapons/Bullet")]
-public class BulletDataSO : ScriptableObject
+public class BulletDataSO : ItemData
 {
     [Range(0f, 1f)] public float BounceResistance;
     [Range(0, 100)] public int Capacity; 

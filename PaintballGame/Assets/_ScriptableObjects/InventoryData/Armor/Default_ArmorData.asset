@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a63aaff9c4382d948861db80778299e3, type: 3}
   m_Name: Default_ArmorData
   m_EditorClassIdentifier: 
-  BounceChance: 0.6
+  Name: Tunic
+  Description: The free, default tunic that comes just so you aren't naked.
+  BounceChance: 0.35
   CamoFactor: 0.427

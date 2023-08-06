@@ -58,7 +58,7 @@ public class GameModeFreeForAll : GameMode
 
     }
 
-    static float RandomValue(int state)
+    public static float RandomValue(int state)
     {
         Random.InitState(state);
         return Random.value;

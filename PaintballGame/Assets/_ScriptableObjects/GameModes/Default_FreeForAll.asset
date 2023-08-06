@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52a33da6ce4ced446a1cb6dbcfe204da, type: 3}
   m_Name: Default_FreeForAll
   m_EditorClassIdentifier: 
-  MinPlayers: 40
-  maxPlayers: 100
-  Teams: 1
+  MinPlayers: 30
+  maxPlayers: 40
+  Teams: 0
   spawnPadding: 5

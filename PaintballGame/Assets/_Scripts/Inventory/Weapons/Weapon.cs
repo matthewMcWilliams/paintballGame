@@ -16,6 +16,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] private UnityEvent _onShoot;
 
     private bool _canShoot = true;
+    private float _reloadTimer = 0f;
 
     private AgentInventoryManager _inventory;
 
@@ -36,7 +37,7 @@ public class Weapon : MonoBehaviour
     public void Fire(BulletDataSO bulletData)
     {
         //Debug.Log(_weaponParent.Inventory.AmmoCount);
-        if (!_canShoot || !isActiveAndEnabled || _weaponParent.Inventory.AmmoCount <= 0)
+        if (!_canShoot || !isActiveAndEnabled || _weaponParent.Inventory.AmmoCount <= 0 || _reloadTimer > 0f)
         {
             return;
         }
@@ -65,8 +66,15 @@ public class Weapon : MonoBehaviour
 
     private IEnumerator ShootCoroutine()
     {
+
         _canShoot = false;
-        yield return new WaitForSeconds(WeaponData.rateOfFire);
+        _reloadTimer = WeaponData.RateOfFire;
+        while (_reloadTimer > 0)
+        {
+            yield return null;
+            _reloadTimer -= Time.deltaTime;
+        }
+
         if (_weaponParent.Inventory.AmmoCount > 0)
         {
             _canShoot = true; 
@@ -76,7 +84,7 @@ public class Weapon : MonoBehaviour
     private void OnEnable()
     {
         _canShoot = _weaponParent.Inventory.AmmoCount > 0;
-        
+        _reloadTimer = 0f;
     }
 
     public void Disable()

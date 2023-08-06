@@ -10,7 +10,7 @@ public class WeaponSwitcher : NetworkBehaviour
 
     public event Action<Weapon> OnWeaponEnable;
     
-    [SerializeField] private Transform[] _weapons;
+    [SerializeField] private List<Transform> _weapons;
 
     private IInputtable _agentInput;
     private AgentInventoryManager _inventory;
@@ -21,6 +21,36 @@ public class WeaponSwitcher : NetworkBehaviour
     {
         _agentInput = transform.root.GetComponent<IInputtable>();
         _inventory = transform.root.GetComponent<AgentInventoryManager>();
+
+
+        foreach (var weapon in _weapons)
+        {
+            NetworkServer.UnSpawn(weapon.gameObject);
+            //Destroy(weapon);
+        }
+        _weapons.Clear();
+
+
+        for (int i = 0; i < _inventory.Weapons.Count; i++)
+        {
+            if (_weapons.Count < i && _inventory.Weapons[i] != null && _weapons[i].GetComponent<Weapon>().WeaponData == _inventory.Weapons[i])
+            {
+                continue;
+            }
+            if (_weapons.Count < i)
+            {
+                Transform oldWeapon = _weapons[i];
+                NetworkServer.UnSpawn(oldWeapon.gameObject);
+                Destroy(oldWeapon);
+            }
+
+            WeaponDataSO weapon = _inventory.Weapons[i];
+            var w = Instantiate(weapon.WeaponPrefab, transform);
+
+            w.GetComponent<Weapon>().WeaponData = weapon;
+            _weapons.Add(w.transform);
+            NetworkServer.Spawn(w);
+        }
     }
 
     private static int PositiveModulo(int a, int b)
@@ -32,14 +62,20 @@ public class WeaponSwitcher : NetworkBehaviour
 
     private void Update()
     {
+        if (_inventory.Weapons.Count != _weapons.Count)
+        {
+            Awake();
+        }
+
         CheckForInput();
+        ChangeWeapon(_inventory.CurrentWeaponIndex);
     }
 
     private void CheckForInput()
     {
         if (_agentInput.GetSwitchWeapon() != 0 && isLocalPlayer && _canSwitch)
         {
-            int weaponIndex = PositiveModulo(_inventory.CurrentWeaponIndex + _agentInput.GetSwitchWeapon(), _weapons.Length);
+            int weaponIndex = PositiveModulo(_inventory.CurrentWeaponIndex + _agentInput.GetSwitchWeapon(), _inventory.Weapons.Count);
             _inventory.CurrentWeaponIndex = weaponIndex;
             ChangeWeapon(weaponIndex);
             StartCoroutine(SwitchCoroutine());
@@ -53,18 +89,13 @@ public class WeaponSwitcher : NetworkBehaviour
         _canSwitch = true;
     }
 
-    [Command]
-    private void ChangeWeapon(int weaponIndex)
-    {
-        ChangeWeaponClient(weaponIndex);
-    }
 
     [ClientRpc]
-    private void ChangeWeaponClient(int weaponIndex)
+    private void ChangeWeapon(int weaponIndex)
     {
         _inventory.CurrentWeaponIndex = weaponIndex;
         OnWeaponEnable?.Invoke(CurrentWeapon);
-        for (int i = 0; i < _weapons.Length; i++)
+        for (int i = 0; i < _weapons.Count; i++)
         {
             if (i == weaponIndex)
             {

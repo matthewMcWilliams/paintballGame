@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb91daadc80a0d2419fb90d9d16a9f13, type: 3}
   m_Name: AssaultRifle_WeaponData
   m_EditorClassIdentifier: 
+  Name: Assault Rifle
+  Description: A rapid firing gun that has been tweeked especially for paintballs.
   WeaponSprite: {fileID: 21300000, guid: b458100bbfcbb444abe2b1745bcd831f, type: 3}
+  WeaponPrefab: {fileID: 1828561584468867022, guid: 67a89b3120a5305418b838405d71781a, type: 3}
   Speed: 40
-  rateOfFire: 0.253
+  RateOfFire: 0.37
   autoFire: 1
   distance: 12.5
   spreadAngle: 1.79

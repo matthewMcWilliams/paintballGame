@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 722d694041b1b4c4c91f8b6fa8845a31, type: 3}
   m_Name: FreeAmmo_BulletData
   m_EditorClassIdentifier: 
+  Name: Free Bullet
+  Description: Free bullets that have no bounce resistance.
   BounceResistance: 0
   Capacity: 100
   Speed: 22.3

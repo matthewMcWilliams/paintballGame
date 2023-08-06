@@ -6,14 +6,11 @@ using UnityEngine;
 
 public class AgentInventoryManager : NetworkBehaviour
 {
-    // TODO: Refactor this and make it more flexible
-    // It might be best to use a scriptable object to keep up with the stats.
-
     [field: SyncVar] public int AmmoCount { get; private set; }
-    public BulletDataSO BulletData { get => _bulletData; }
-    public ArmorDataSO ArmorData { get => _armorData; }
-    public List<WeaponDataSO> Weapons { get => _weaponData; }
-    public List<ToolDataSO> Tools { get => _tools; }
+    public BulletDataSO BulletData { get => _bulletData; set => _bulletData = value; }
+    public ArmorDataSO ArmorData { get => _armorData; set => _armorData = value; }
+    public List<WeaponDataSO> Weapons { get => _weaponData; set => _weaponData = value; }
+    public List<ToolDataSO> Tools { get => _tools; set => _tools = value; }
 
     public int CurrentWeaponIndex;
 

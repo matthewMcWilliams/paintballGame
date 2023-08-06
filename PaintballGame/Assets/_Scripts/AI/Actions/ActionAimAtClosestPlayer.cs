@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ActionAimAtClosestPlayer : Action
@@ -20,9 +21,16 @@ public class ActionAimAtClosestPlayer : Action
 
     public override void TakeAction()
     {
-        _target = GetTarget();
+        _inputData.MousePosWorld = (PlayerManager.Instance.FindClosestOpponent(transform) ?? transform).position;
 
-        _inputData.MousePosWorld = Vector2.MoveTowards(_inputData.MousePosWorld, _target, _aimSpeed * Time.deltaTime);
+        return;
+
+        if (Vector3.Distance(_target, _inputData.MousePosWorld) < 0.5f)
+        {
+            _target = GetTarget(); 
+        }
+
+        _inputData.MousePosWorld = Vector3.RotateTowards((Vector3)_inputData.MousePosWorld - transform.position, (Vector3)_target - transform.position, _aimSpeed * Time.deltaTime, 10f) * _target.magnitude + transform.position;
     }
 
     public override void SwitchToAction()
@@ -34,10 +42,10 @@ public class ActionAimAtClosestPlayer : Action
     {
         var player = PlayerManager.Instance.FindClosestOpponent(transform) ?? transform;
         Vector2 target = player.position;
-        float angle = Mathf.Atan2(target.y, target.x);
-        float distance = target.magnitude;
+        float angle = Mathf.Atan2(target.y - transform.position.y, target.x - transform.position.x);
+        float distance = Vector2.Distance(target, transform.position);
         angle += _accuracyCurve.Evaluate(Random.Range(0f, 1f)) * _accuracy;
-        target = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * distance;
+        target = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle)) * distance + transform.position;
         return target;
     }
 }

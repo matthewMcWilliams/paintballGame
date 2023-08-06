@@ -9,7 +9,7 @@ public class FeedbackCameraShake : Feedback
 
     public override void Invoke()
     {
-        if ((!_localPlayerOnly && !isLocalPlayer))
+        if ((!_localPlayerOnly && (!isLocalPlayer || transform.root.TryGetComponent(out InputData _))))
             return;
         ScreenShake.ShakeAllCameras(_duration, _magnitude);
     }

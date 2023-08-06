@@ -13,18 +13,35 @@ public class GameManager : NetworkBehaviour
 
     public GameMode Mode => _modes[_modeIndex];
     [HideInInspector] public bool GameOver;
+    /// <summary>
+    /// Set true if the countdown has finished.
+    /// </summary>
+    [HideInInspector] public bool CountdownFinished { get; private set; }
+    /// <summary>
+    /// Set to true if the players have been moved to their position.
+    /// </summary>
+    [HideInInspector] public bool PlayersInPosition { get; private set; }
+    [HideInInspector] public int CountdownTime { get; private set; }
+
+    /// <summary>
+    /// Called when the player either dies or finishes, and returns the place they finished in.
+    /// </summary>
+    public event System.Action<int> OnLocalPlayerFinish;
+
+    public GameObject IdleBotPrefab;
+    public List<Transform> Players;
 
     public Collider2D RespawnRoom;
     public CinemachineVirtualCamera GameVCam;
 
     [SerializeField] private string _defaultName;
+    [SerializeField] private float _countdownLength;
 
     [SerializeField] private List<GameMode> _modes;
     [SerializeField] private GameObject _botPrefab;
 
     [SyncVar] private int _modeIndex;
 
-    public List<Transform> Players;
 
     public void StartRound(List<Transform> players)
     {
@@ -54,7 +71,9 @@ public class GameManager : NetworkBehaviour
                 PlayerCount++;
                 StartPlayerCount++;
                 player.GetComponentInChildren<AgentHitbox>().OnDie += OnPlayerDie;
+                player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             }
+
             players = players.OrderBy(x => Random.Range(0f, 100f)).ToList();
             Mode.SetupGame(players); 
         }
@@ -68,21 +87,67 @@ public class GameManager : NetworkBehaviour
         {
             GameVCam.Priority = 20; 
         }
+
+        CountdownFinished = false;
+        PlayersInPosition = true;
+        StartCoroutine(Countdown());
+    }
+
+    private IEnumerator Countdown()
+    {
+        float time = _countdownLength;
+        while (time > 0)
+        {
+            yield return null;
+            time -= Time.deltaTime;
+            CountdownTime = Mathf.FloorToInt(time);
+        }
+        CountdownFinished = true;
     }
 
     private void Update()
     {
-        if (Mode != null)
+        if (CountdownFinished)
         {
             GameOver = Mode.CheckWinCondition(Players);
-            Debug.Log($"Game Over? {GameOver}!");
+            if (GameOver)
+            {
+                foreach (var _ in from player in Players
+                                  where player.GetComponent<NetworkBehaviour>().isLocalPlayer
+                                  select new { })
+                {
+                    OnLocalPlayerFinish?.Invoke(1);
+                }
+                CountdownFinished = false;
+                PlayersInPosition = false;
+
+                Invoke(nameof(FinishGame), 3f);
+            }
         }
+    }
+
+    private void FinishGame()
+    {
+        var playerListCopy = new List<Transform>(Players);
+        foreach (var player in playerListCopy)
+        {
+            if (player.GetComponent<NetworkBehaviour>().isLocalPlayer)
+            {
+            }
+            player.GetComponentInChildren<AgentHitbox>().Die();
+        }
+        CountdownFinished = false;
     }
 
     private void OnPlayerDie(Transform from)
     {
+        if (!Mode.Teams && from.root.GetComponent<NetworkBehaviour>().isLocalPlayer)
+        {
+            OnLocalPlayerFinish(PlayerCount); 
+        }
         PlayerCount--;
         Players.Remove(from);
+        
     }
 
     protected static GameManager instance;

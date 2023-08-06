@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 using Random = UnityEngine.Random;
 
 public class AgentHitbox : NetworkBehaviour
@@ -39,7 +40,8 @@ public class AgentHitbox : NetworkBehaviour
         {
             if (Random.Range(0f, 1f) > GetBounceChance(collider))
             {
-                Die(collider);
+                Destroy(collider.gameObject);
+                Die();
             }
             else
             {
@@ -63,14 +65,22 @@ public class AgentHitbox : NetworkBehaviour
         _onBounce?.Invoke();
     }
 
-    private void Die(Collider2D collider)
+    public void Die()
     {
         OnDie?.Invoke(transform.root);
-        Destroy(collider.gameObject);
         _onPlayerDie?.Invoke();
+
+        Bounds respawnRoom = GameManager.Instance.RespawnRoom.bounds ;
+        Vector3 newPos = new Vector3(
+                    Random.Range(respawnRoom.min.x, respawnRoom.max.x),
+                    Random.Range(respawnRoom.min.y, respawnRoom.max.y)
+                    );
 
         if (transform.root.GetComponent<AIBehavior>())
         {
+            var p = Instantiate(GameManager.Instance.IdleBotPrefab, newPos, Quaternion.identity);
+            p.transform.root.GetComponentInChildren<AgentRenderer>().TeamColor = transform.root.GetComponentInChildren<AgentRenderer>().TeamColor;
+
             DestroyPlayer();
             return;
         }
@@ -80,14 +90,10 @@ public class AgentHitbox : NetworkBehaviour
             GameManager.Instance.GameVCam.Priority = 10;
         }
 
-        Bounds respawnRoom = GameManager.Instance.RespawnRoom.bounds ;
         //respawnRoom.center += GameManager.Instance.RespawnRoom.transform.position;
         //Debug.Log(respawnRoom);
 
-        transform.root.position = new Vector3(
-            Random.Range(respawnRoom.min.x, respawnRoom.max.x),
-            Random.Range(respawnRoom.min.y, respawnRoom.max.y)
-            );
+        transform.root.position = newPos;
 
     }
 
